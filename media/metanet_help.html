@@ -1,0 +1,88 @@
+
+<p>
+<h3 id="input">Input and Options:</h3></a>
+The input to the MetaNet webtool is a list of genes in Entrez Gene ID (ex: 27) or Gene Symbol (ex: ABL2) formats, which are entered into the text box marked "Enter genes here:". 
+For a sample gene list, please click the text immediately below the input genes text box. The gene set collection can be changed using a drop down list and gene sets within the selected 
+collected will be tested for enrichment within the input gene list. 
+<br><br>The MetaNet algorithm options can be changed via the Options dialog box that is accessible by clicking the "Options" link. 
+Options include the p-value threshold for determining whether a gene set is consider to be enriched or not, which can be changed using a slider or by typing a number in the input text box above the slider. 
+The enrichment p-value threshold can optionally correspond to post Benjamini correction for multiple hypothesis. Likewise, the p-value threshold can be lowered for determining whether an edge should be included from the pre-computed Global Gene Set Meta Networks. 
+The type of Meta Networks to be considerd can be selected through check boxes. Click OK to set changed options and return to main window.
+<br><br>The algorithm runs upon clicking the Submit button.
+<br>
+<br>
+</p>
+
+<p>
+<h3>Enrichment Results:</h3>
+The enrichment results can be viewed by clicking the "Enrichment" tab. Gene sets are tested for enrichment within the input gene list by computing a p-value using Fisher's Exact Test. 
+The test results are plotted as an interactive column chart using the <a href='http://www.highcharts.com/' target='_blank'>high charts plugin</a>. 
+The number of genes in the gene set that are also in the input list along with the uncorrected and Benjamini-corrected p-values are displayed on hover over the columns. 
+Further details needed for computing the p-values are displayed in the right side panel when the respective columns are clicked.
+<br><br>The graph can be printed or saved in one of PNG, JPEG, PDF, or SVG formats by clicking the respective buttons in the top-right corner of the graph. 
+The results can also be downloded as a table by clicking the "Download Enrichment Results" link in top section of the right side panel. 
+<br><br>Note that clicking any selected tab again will hide the contents and can be re-displayed by clicking the tab.
+<br>
+<br>
+</p>
+
+<p>
+<h3>Meta Network:</h3></a>
+The enriched gene sets are connected if there are functional relationships between them as determined via pre-computed Meta Networks. 
+The current implementation of MetaNet supports three types of Meta Networks per gene set collection: <br>
+<br><b>1. Co-membership.</b> Gene sets are connected if there are a significant number of shared gene members. These edges are colored black by default.
+<br><b>2. Co-enrichment: Differential Expression.</b> Gene sets are connected if there are a significant number of published gene expression experiments where both gene sets are enriched while accounting for shared members. These edges are colored green by default.
+<br><b>3. Linkage: Protein-Protein Interaction.</b> Gene sets are connected if there are a significant number of reported physical interactions between the unique members of the two gene sets. These edges are colored purple by default.
+<br>
+<br>
+In the user-specific Meta Network, each node represents a single gene set enriched in the user-inputted gene list. Diamond shaped nodes are independent gene sets; i.e. those gene sets that have a greater number of input genes that are unique to that gene set than shared with any other enriched gene set. 
+Conversely, circle nodes are dependent gene sets, where they consist of a greater number of input genes that are shared with at least one other enriched gene set. The legend can be displayed by clicking the "Legend" menu item above the network. The legend can be moved by clicking and dragging the top of the box.
+<br>
+<br>
+Node or edge size, color, or shape can be changed via the respective menu items above the network. The network layout can be re-applied or changed using a different algorithm using the "Layout" menu item. The network image can be saved in PNG or PDF formats and the network data can be saved in GraphML and SIF formats for re-import in other graph visualization programs via the "Save" menu item.
+<br>
+<br>
+The interactive network is visualized using the <a href="http://cytoscapeweb.cytoscape.org/"><img src="http://cytoscapeweb.cytoscape.org/img/logos/cw_s.png" alt="Cytoscape Web"/>Cytoscape Web Plugin</a>. The Cytoscape Web graph visualization controls for zooming and panning are placed in the top right corner in the Meta Network tab but can be moved by clicking and dragging. The individual nodes can be moved by clicking and dragging as well.
+<br>
+<br>
+Clicking each node displays the number of input genes in the respective gene set with corresponding NCBI Entrez Gene links in the right side panel.<br>
+Clicking each edge displays the type of meta edge and the p-value indicating the confidence in the pre-computed relationship between linked gene sets in the right side panel.<br>
+
+<br>
+<br>
+</p>
+
+<p>
+<h3>Download Options:</h3></a>
+All pre-computed meta-network edges (1.9 MB) can be downloaded by clicking <a href="/metanet/download_metanets/" target="_blank">here.</a><br>
+The gene set annotations (6.2 MB) used to map genes to gene sets can be downloaded by clicking <a href="/metanet/download_genesets/" target="_blank">here.</a><br>
+The source code and underlying database can be found on <a href="https://sourceforge.net/projects/metanet/" target="_blank">SourceForge.</a>
+<br>
+<br>
+</p>
+
+
+<p>
+<h3>Citing MetaNet:</h3></a>
+If you use MetaNet for your own research, please provide a reference to "http://metanet.com"
+<br>
+We will provide the corresponding publication reference and PubMed link as soon as it is available.
+<br>
+<br>
+</p>
+
+
+<p>
+The MetaNet project is hosted by the Jarrod Marto lab at the <a href="http://blais.dfci.harvard.edu/" target="_blank">Blais Proteomics Center</a> and 
+the Yu Xia lab at <a href="http://xialab.bu.edu" target="_blank">Boston University</a>. 
+<br>
+<br>
+Please contact Jarrod Marto at <a href="mailto:jarrod_marto@dfci.harvard.edu">jarrod_marto@dfci.harvard.edu</a> for more information.
+</p>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
+

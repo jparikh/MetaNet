@@ -1,0 +1,50 @@
+
+
+<script type="text/javascript">
+    function draw_net(id, data){
+      var vis = new org.cytoscapeweb.Visualization(id, swf_options);
+          // callback when Cytoscape Web has finished drawing
+      vis.ready(function() {
+          // add a listener for when nodes and edges are clicked
+          vis.addListener("click", "nodes", function(event) {
+              handle_click(event);
+          });
+          
+          function handle_click(event) {
+               $(#layout_north);.text(event.target.data.id.value());
+          };
+        };
+      );
+
+          
+      draw_options = {
+          // your data goes here
+          network: data
+          
+          // show edge labels too
+          edgeLabelsVisible: false,
+          
+          // let's try another layout
+          layout: layout,
+          
+          // set the style at initialisation
+          visualStyle: visual_style,
+          
+          // hide pan zoom
+          panZoomControlVisible: true
+      };
+      
+      vis.draw(draw_options);
+      };
+</script>
+
+<style>
+    /* The Cytoscape Web container must have its dimensions set. */
+    #{{netid}} { width: 100%; height: 100%; }
+</style>
+
+  {% else %}
+    /* Nothing to return */
+{% endif %}
+
+

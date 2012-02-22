@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+	{% if data %}
+		<table>
+		{% for key in headers %}
+			<th>{{key}}</th>
+		{% endfor %} 
+	    {% for row in data %}
+			<tr>
+			{% for value in row %}
+				<td>{{ value }}</td>
+			{% endfor %} 
+			</tr>
+	    {% endfor %}
+		</table>
+	{% else %}
+	    <p>No data.</p>
+	{% endif %}
+{% endblock %}

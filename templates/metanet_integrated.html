@@ -1,0 +1,543 @@
+<html>
+<head>
+    <title>MetaNet</title>
+    
+    <!--- CSS links --->
+    <link type="text/css" href="/metanet/media/css/layout-default-latest.css" rel="Stylesheet" />
+    <link type="text/css" href="/metanet/media/css/blais/jquery-ui-1.8.6.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="/metanet/media/css/colorPicker.css" rel="Stylesheet" />
+    
+    <!--- js imports --->
+    <script type="text/javascript" src="/metanet/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/jquery-ui-1.8.6.custom.min.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/jquery.layout.min-1.2.0.js"></script>
+    <script type="text/javascript" src="/metanet/media/cytoscapeweb_v0.8/js/min/json2.min.js"></script>    
+    <script type="text/javascript" src="/metanet/media/cytoscapeweb_v0.8/js/min/AC_OETags.min.js"></script>    
+    <script type="text/javascript" src="/metanet/media/cytoscapeweb_v0.8/js/min/cytoscapeweb.min.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/custom_cytoscape.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/highcharts.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/exporting.js"></script>
+    <script type="text/javascript" src="/metanet/media/js/jquery.colorPicker.js"></script>
+    
+    <!--- style changes --->
+    <style type="text/css">
+    html, body {
+        width:    100%;
+        height:   100%;
+        padding:  0;
+        margin:   0;
+
+    }
+    
+    #base-container {
+        width:        100%;
+        height:       100%;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+    
+    .ui-layout-north {
+        vertical-align: center;
+        padding: 0.5em;
+        background:	#7F181A; 
+
+    }
+    
+    .ui-layout-center { overflow: hidden;}
+
+    
+    .hoverText:hover {
+        cursor: pointer; 
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    #integrated_metanet { width: 100%; height: 90%; }
+    
+    #metanet_about {width: 100%}
+ 
+
+    .ui-tabs-selected { margin-top: -1px !important; }
+    .ui-tabs {font-size: 1em}
+    .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0.2em 0.2em; background: none; }
+	
+	.ui-dialog-spinner { 
+		border: 0; position: absolute; padding: 0em; background: transparent; 
+	}
+	.ui-dialog-spinner .ui-dialog-titlebar {visibility:hidden;}
+	.ui-dialog-spinner .ui-widget {background: transparent;}
+
+	.ui-dialog-legend { 
+		position: absolute; padding: 0em; background: transparent; border-color: #aaa;
+	}
+	.ui-dialog-legend .ui-widget-header {background: transparent; border: 0; padding: 0em;}
+	.ui-dialog-legend .ui-dialog-titlebar-close {background: #7f181a;}
+	.ui-dialog-legend .ui-widget {background: transparent; padding: 0em;}
+	.ui-dialog-legend .ui-dialog-content {background: transparent; padding: 0em;}
+	
+
+	div.scroll {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	}
+
+	
+    </style>
+        
+    <!--- js --->
+    <script type="text/javascript">
+    //jquery-ui stuff
+    z_index = 1000;
+    legend_open = false;
+    
+    $(function() {
+        $( "button, input:submit").button();
+        $("#tabs").tabs({
+        	collapsible: true,
+        	select: function(event, ui) {
+        		if (ui.index == 1 && legend_open == true) {
+        			$("#integrated_metanet_menu_legend_options").dialog('open');
+        		}
+        		if (ui.index != 1 && legend_open == true) {
+        			$("#integrated_metanet_menu_legend_options").dialog('close');
+        			legend_open = true;
+        		}
+        	}
+        });
+	
+
+        $( ".ui-dialog > *" ).addClass( "ui-dialog-spinner" );
+        $( ".ui-dialog > *" ).addClass( "ui-dialog-legend" );
+            
+        $( "#enrich_pvalue_slider" ).slider({
+            range: "max",
+      			value: 0.05,
+      			min: 0.00001,
+      			max: 0.1,
+      			step: 0.00001,
+      			slide: function( event, ui ) {
+      			   $( "#enrich_pvalue" ).val( ui.value );
+      			}
+  		  });
+  		  $( "#enrich_pvalue" ).val( $( "#enrich_pvalue_slider" ).slider( "value" ) );
+  		  $( "#metanet_benjamini_slider" ).slider({
+            range: "max",
+      			value: 0.05,
+      			min: 0.00001,
+      			max: 0.05,
+      			step: 0.00001,
+      			slide: function( event, ui ) {
+      			   $( "#metanet_benjamini_pvalue" ).val( ui.value );
+      			}
+  		  });
+  		  $( "#metanet_benjamini_pvalue" ).val( $( "#metanet_benjamini_slider" ).slider( "value" ) );
+  		  
+  		  $( "#dialog:ui-dialog" ).dialog( "destroy" );
+        $( "#metanet_options" ).dialog({
+      			autoOpen: false,
+      			modal: true,
+      			buttons: {
+      			   Reset: function() {
+      			       $( "#enrich_pvalue_slider" ).slider("value", 0.05);
+      			       $( "#metanet_benjamini_slider" ).slider("value", 0.05);
+      			       $( "#enrich_pvalue" ).val( $( "#enrich_pvalue_slider" ).slider( "value" ) );
+      			       $( "#metanet_benjamini_pvalue" ).val( $( "#metanet_benjamini_slider" ).slider( "value" ) );
+      			       $("#enrich_pvalue_radio_uncorrected").attr("checked", "checked");
+      			       $("#enrich_pvalue_radio_benjamini").removeAttr("checked");
+      			       $( "input[name='select_metanet_types[]']" ).attr("checked", "checked");
+      			   
+      			   },
+      			   OK: function() {
+      					$( this ).dialog( "close" );
+      			   }
+      			},
+		    });	  
+		$( "#metanet_about" ).dialog({
+      			autoOpen: false,
+      			resizable: false,
+      			width: 400
+		 });	
+		$( "#spinner" ).dialog({
+      			autoOpen: false,
+      			modal: true,
+      			draggable: false,
+      			resizable: false,
+      			height: 200,
+      			width: 100,
+      			dialogClass: "ui-dialog-spinner"
+		 });	
+
+
+		$( '#metanet_help' ).load('/metanet/media/metanet_help.html');
+
+    });
+    
+ 
+    function roundNumber(num, dec) {
+		var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+		return result;
+	}
+
+
+    function handle_node_click(event) {
+    		var the_length =  event.target.data.members.split(',').length;
+    		var s = "<b>Name: </b>" + event.target.data.label;
+    		s += "<br><b>Node size: </b>" + the_length;
+    		s += "<br><b>Members: </b>" + event.target.data.members;
+            $("#results_display").html(s);
+        };
+        
+    function handle_edge_click(event) {
+    		var s = "<b>Meta-edge type: </b>" + event.target.data.metanet_type;
+    		s += "<br><b>Meta-edge -log10 p-value: </b>" + roundNumber(event.target.data.weight,2);
+            $("#results_display").html(s);
+        };
+        
+
+    function AjaxPost(url, data, success) {
+        $.ajax({
+            url: url, 
+            type: "POST",
+            dataType: "json",
+            data: data, 
+            success: success
+        });
+    };
+      
+    function AjaxOnSubmit(event) { 
+    	if ($("#genelist").val().split('\n').length > 1000) {
+    		alert("Please reduce your list to 1000 genes or fewer.");
+    		return;
+    	}
+    	
+    	
+        event.preventDefault(); // cancel the default action
+        $("#submit_button").button("disable");    //disable form area
+        $("#genelist").button("disable");    //disable form area
+        $("#geneset_family_id").button("disable");    //disable form area
+        
+        //add loading gif
+        $( "#spinner" ).dialog( "open" );
+           
+        
+        document.getElementById('results_download').style.visibility = "hidden"
+        
+        //destroy tab contents
+        //destroy dialogs first
+        $('[name$="options"]').each(function(index, dialog) {
+            $("#"+dialog.id).dialog("destroy");
+            $("#"+dialog.id).remove();
+        });
+        
+        $.each( $("#integrated_metanet").children(), function(index2, child1) {
+			$("#"+child1.id).remove();
+		});
+
+        $("#results_display").text("Getting results...");
+        //run enrichment analysis
+ 
+        AjaxPost("/metanet/ajax_enrichment/", {"genes": $("#genelist").val(), "geneset_family": $("#geneset_family_id").val(), "pvalue": $("#enrich_pvalue").val(), "corrected": $("#metanet_options input:radio:checked").val()}, successAjaxEnrichment)
+    };
+    
+    function successAjaxEnrichment(data) {
+        //plot enrichment results and send posts for meta-net analyses
+        plotEnrichment(data);
+        
+        var genesets = [];
+        var m_genes = [];
+        var p_vals = [];
+        for (var obj in data.data) {
+            genesets.push(data.data[obj]["Annotation"]);
+            m_genes.push(data.data[obj]["Input Annotated"])
+            p_vals.push(data.data[obj]["P-Value"])
+        };        
+        
+        var metanet_types = [];
+        $("input[name='select_metanet_types[]']:checked").each(
+            function() {
+                metanet_types.push($(this).val())
+            }
+        );
+        
+        
+        //run meta-net analysis
+        AjaxPost("/metanet/ajax_integrated_metanet/", {"genesets[]": genesets, "metanet_types[]":metanet_types, "geneset_family": $("#geneset_family_id").val(), "benjamini": $("#metanet_benjamini_pvalue").val()}, successAjaxMetaNet)
+
+
+		
+        //AjaxPost("/ajax_ppi/", {}, successAjaxMetaNet)
+        $("#results_display").text("Results retreived.");
+
+		document.getElementById('results_download').style.visibility = "visible"        
+        
+        //run popularity analysis
+    };
+    
+    function successAjaxMetaNet(data) {
+        z_index = z_index + 1;
+        
+        $( "#spinner" ).dialog( "close" );
+        $("#submit_button").button("enable");    //disable form area
+        $("#genelist").button("enable");    //disable form area
+        $("#geneset_family_id").button("enable");    //disable form area
+        
+        if (data) {
+            draw_net(data.id, data.data, handle_node_click, handle_edge_click);
+        } 
+        else {
+            alert("no metanet")
+        };
+        
+        
+    };
+    
+    function plotEnrichment(data) {
+        var categories = [];
+        var pvals = [];
+        var num_genes = [];
+        
+        for (var obj in data.data) {
+            categories.push(data.data[obj]["Name"]);
+            pvals.push(data.data[obj]["-log10 P-Value"]);
+            num_genes.push(data.data[obj]["m"]);
+        };
+        
+            
+        title="Enrichment Results";
+        chart = new Highcharts.Chart({
+    				chart: {
+      					renderTo: "enrichment",
+      					margin: [100, 100, null, 200],
+      					height: 500
+    				},
+    				title: {
+                text: title 
+    				},
+    				xAxis: {
+    				    categories: categories,
+    				    labels: {
+    				        align: "right",
+                    rotation: -45,
+                    staggerLines: 2
+                }
+    				},
+    				yAxis: [
+                { // Primary yAxis
+                    title: {
+            						text: "-log(p-value)",
+            						style: {
+            						    color: "#4572A7"
+            						}
+          					},
+          				  labels: {
+            						formatter: function() {
+            						    return this.value;
+            						},
+            						style: {
+            						    color: "#4572A7"
+            						}
+          					}
+        				}, 
+                { // Secondary yAxis
+          					title: {
+            						text: "# Genes in Input",
+            						style: {
+            						    color: "#89A54E"
+            						}
+          					},
+          					labels: {
+            						formatter: function() {
+            						    return this.value;
+            						},
+            						style: {
+            						    color: "#89A54E"
+          						  }
+          					},
+        				    opposite: true
+                }
+            ],
+    				tooltip: {
+    				    formatter: function() {
+                    var s = "<b>"+ this.x +"</b><br/>";
+                    
+                    s += "# Genes in Input: "  + data.data[this.points[0].point.x]["m"] + "<br/>";
+                    s += "P-Value: " + data.data[this.points[0].point.x]["Format P-Value"] + "<br/>";
+                    s += "Benjamini P-Value: " + data.data[this.points[0].point.x]["Format Benjamini P-Value"];
+                    
+                    return s;
+                },
+                shared: true
+    				},
+    				legend: {
+                layout: "vertical",
+                align: "right",
+                verticalAlign: "top",
+                floating: true,
+                backgroundColor: "#FFFFFF",
+                x: -100,
+                enabled: false
+            },
+            series: [
+                {
+                    name: "-log(p-value)",
+                    color: "#4572A7",
+                    type: "column",
+                    data: pvals		
+                }, 
+                {
+                    name: "# Genes in Input",
+                    color: "#89A54E",
+                    type: "spline",
+                    yAxis: 1,
+                    data: num_genes
+                }
+            ],
+            credits: {
+                enabled: false
+            },
+            exporting: {
+                enabled: true
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                            	var s = "<b>Geneset: </b>" + data.data[this.x]["Name"];
+                            	s += "<br><b>P-Value: </b>" + data.data[this.x]["Format P-Value"];
+                            	s += "<br><b>Benjamini P-Value: </b>" + data.data[this.x]["Format Benjamini P-Value"];
+                            	s += "<br><b># Annotated Genes in Input: </b>" + data.data[this.x]["m"];
+                            	s += "<br><b># Annotated Genes in Total: </b>" + data.data[this.x]["n"];
+                            	s += "<br><b># Genes in Input: </b>" + data.data[this.x]["M"];
+                            	s += "<br><b># Genes in Total: </b>" + data.data[this.x]["N"];
+                            	s += "<br><b>Fold Enrichment: </b>" + roundNumber((data.data[this.x]["m"] / data.data[this.x]["M"]) / (data.data[this.x]["n"] / data.data[this.x]["N"]), 2) ;
+                                $("#results_display").html(s);
+                            }
+                        }
+                    }
+                }
+            }
+		    });
+    };
+    
+
+
+
+    $(document).ready(function(){
+    	
+        $("#submit_button").click(AjaxOnSubmit);
+        
+        $("#base-container").layout({
+         north__size: "auto"
+         ,north__resizable: false
+         ,west__size: "200"
+        });   
+        
+        $("#metanet_options_text").click(function(){$( "#metanet_options" ).dialog( "open" );})
+        $("#metanet_about_text").click(function(){$( "#metanet_about" ).dialog( "open" );})
+        $("#example_gene_list").click(function(){$("#genelist").val("100505503\n10155\n10250\n103\n10514\n10521\n10594\n10885\n10940\n10949\n10992\n1107\n11100\n11137\n11222\n11224\n118460\n121504\n124245\n126961\n1660\n1665\n192111\n222194\n22907\n22913\n23234\n23404\n23450\n23451\n23521\n23524\n2597\n26097\n26135\n26284\n26354\n27316\n28957\n2975\n2976\n3006\n3183\n3187\n3190\n3191\n333932\n339230\n3692\n400506\n445582\n4839\n5093\n51001\n51073\n51154\n51574\n51649\n5356\n5394\n54512\n54552\n54606\n54865\n55153\n55226\n554313\n55660\n55759\n5591\n55920\n55922\n56829\n57062\n58517\n5981\n5982\n5984\n5985\n6133\n6134\n6135\n6142\n6146\n6152\n6156\n6176\n6187\n6191\n6193\n6201\n6203\n6205\n6210\n6217\n6218\n6222\n6223\n6224\n6228\n6230\n6231\n6238\n64949\n64965\n64969\n65265\n653604\n65993\n6726\n6730\n6742\n6749\n6949\n7112\n7150\n7486\n7520\n79009\n79039\n8294\n8359\n8360\n8361\n8362\n8363\n8364\n8365\n8366\n8367\n8368\n8370\n83743\n84000\n84298\n84319\n84844\n8621\n8899\n9188\n92140\n9221\n9328\n9330\n9349\n9669\n9774\n9782\n9967");})
+
+
+
+    });
+    
+    
+    </script>
+
+</head>
+
+
+
+<body>
+    <div id="metanet_options" title="MetaNet Options" height=60% width = 60%>
+        Select enrichment p-value threshold:<br>
+        <input type="text" id="enrich_pvalue" style="border:0; color:#f6931f; font-weight:bold;" />
+        <div id="enrich_pvalue_slider" style="width:200px"></div>
+        <br>
+        <input type="radio" name="enrich_pvalue_radio" id="enrich_pvalue_radio_uncorrected" value="uncorrected" checked> Uncorrected<br>
+		<input type="radio" name="enrich_pvalue_radio" id="enrich_pvalue_radio_benjamini" value="benjamini"> Benjamini Corrected<br>
+        <br><br>
+        Select metanet benjamini p-value threshold:<br>
+        <input type="text" id="metanet_benjamini_pvalue" style="border:0; color:#f6931f; font-weight:bold;" />
+        <div id="metanet_benjamini_slider" style="width:200px"></div>
+        <br><br>
+        Select metanets to retrieve:<br>
+        <input type="checkbox" name="select_metanet_types[]" id="select_comembership" value="comembership" checked>Co-membership<br>
+        <input type="checkbox" name="select_metanet_types[]" id="select_coenrichment_de" value="coenrichment_de" checked>Co-enrichment:DE<br>
+        <input type="checkbox" name="select_metanet_types[]" id="select_linkage_ppi" value="linkage_ppi" checked>Linkage:PPI<br>
+    </div>
+
+    <div id="metanet_about" title="About MetaNet">
+    	<br>
+        Authors: Jignesh Parikh, Yu Xia, and Jarrod Marto
+        <br><br>
+        Please contact Jarrod Marto at <a href="mailto:jarrod_marto@dfci.harvard.edu">jarrod_marto@dfci.harvard.edu</a>
+    </div>
+
+    <div id="spinner" align="center">
+		<img src="/media/images/ajax-loader_big.gif" alt="loading..." />
+    </div>
+
+
+
+    <div id="base-container">
+    <div id="layout_north" class="ui-layout-north"> 
+        <table width = 100% bgcolor=#FFF><tr>
+        <td align=left width=5%><a href="http://blais.dfci.harvard.edu" target="_blank"><img src="/media/images/BlaisLogo.png" height=30 /></a></td>
+        <td align=left width=5%><a href="http://xialab.bu.edu" target="_blank"><img src="/media/images/BU_logo.png" height=60 /></a></td>
+        <td align=center width=80% bgcolor="#FFF"><font color="#7F181A" size=10><b>MetaNet</b></font></td>
+        <td align=right width=10%><font color="#777777" size=5><p class="hoverText"  id="metanet_about_text" align = center>About</p></font></td>
+        </tr></table>
+    </div>
+    <div id="layout_east" class="ui-layout-east">
+    	<div id="results_download" style="visibility:hidden"><a href="./download_results/" target="_blank">Download Enrichment Results</a></div>
+    	<br><br>
+    	<div id="results_display"></div>
+    </div>
+    <div id="layout_center" class="ui-layout-center">
+        <div class="ui-tabs" id="tabs">
+            <ul>
+                <li><a href="#tabs-1"><span>Enrichment</span></a></li>
+                <li><a href="#tabs-2"><span>Meta Network</span></a></li>
+                <li><a href="#tabs-3"><span>Help</span></a></li>
+            </ul>
+            <div class="ui-tabs-hide" id="tabs-1">
+                <div id="enrichment"></div>
+            </div>
+            <div class="ui-tabs-hide" id="tabs-2">
+                <div id="integrated_metanet"></div>
+            </div>         
+            <div class="ui-tabs-hide" id="tabs-3">
+                <div id="metanet_help" class="scroll"></div>
+            </div>         
+        </div>
+    </div>
+    <div id="layout_west" class="ui-layout-west">
+      <div id="input_form" align=center>
+          Enter genes here (GeneID or Symbol):<br>
+          <textarea id="genelist" name="genelist" rows=20 cols=10>Enter input here...</textarea>
+          <br>
+          <a class="hoverText" id="example_gene_list">(Click here for example list)</a><br>
+          <br><br>
+          Select geneset collection:
+          <select id="geneset_family_id">
+              <option value="KEGG">KEGG Pathway</option>
+              <option value="Kinase substrates__Phosphatase substrates">Phosphorylation Subtrates</option>
+              <option value="Chromosome map">Chromosome Map</option>
+              <option value="biological_process_50_10_200">GO Biological Process</option>
+              <option value="molecular_function_50_10_200">GO Molecular Function</option>
+              <option value="cellular_component_50_10_200">GO Cellular Component</option>  
+              <option value="VirusMINT">VirusMINT</option>  
+              <option value="WikiPathways">WikiPathways</option>                
+          </select>
+          <br><br>
+          <a class="hoverText" id="metanet_options_text"><b>Options</b></a>
+          <br><br>
+          <input type="submit" id="submit_button" value="Submit"/>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

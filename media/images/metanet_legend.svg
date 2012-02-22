@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="200"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="metanet_legend.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0148597"
+     inkscape:cx="157.23923"
+     inkscape:cy="171.45227"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="752"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-852.36218)">
+    <g
+       id="g3824"
+       transform="translate(-3.0146421,82.506521)">
+      <rect
+         transform="matrix(0.74128216,0.67119353,-0.67241299,0.74017617,0,0)"
+         y="559.31647"
+         x="546.31189"
+         height="20.740101"
+         width="20.051996"
+         id="rect2987"
+         style="fill:#7f181a;fill-opacity:1;fill-rule:evenodd;stroke:#dddddd;stroke-width:1.18989968;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3757"
+         y="798.79413"
+         x="71.485123"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         xml:space="preserve"><tspan
+           y="798.79413"
+           x="71.485123"
+           id="tspan3761"
+           sodipodi:role="line">Independent Gene Set</tspan></text>
+    </g>
+    <g
+       id="g3829"
+       transform="translate(-3.0146421,76.164476)">
+      <text
+         xml:space="preserve"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         x="71.430435"
+         y="847.49396"
+         id="text3784"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3786"
+           x="71.430435"
+           y="847.49396">Dependent Gene Set</tspan></text>
+      <path
+         transform="matrix(0.59147199,0,0,0.59147199,13.019999,775.9056)"
+         d="m 50.25325,114.75272 c 0,12.51656 -10.146674,22.66323 -22.663231,22.66323 -12.516557,0 -22.6632307,-10.14667 -22.6632307,-22.66323 0,-12.51655 10.1466737,-22.663227 22.6632307,-22.663227 12.516557,0 22.663231,10.146677 22.663231,22.663227 z"
+         sodipodi:ry="22.663231"
+         sodipodi:rx="22.663231"
+         sodipodi:cy="114.75272"
+         sodipodi:cx="27.590019"
+         id="path3788"
+         style="fill:#7f181a;fill-opacity:1;fill-rule:evenodd;stroke:#dddddd;stroke-width:2.01305842;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g3834"
+       transform="translate(-3.0146421,76.137693)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3790"
+         d="m 7.8828627,877.64026 42.9117193,0"
+         style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3792"
+         y="881.35559"
+         x="71.779068"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         xml:space="preserve"><tspan
+           y="881.35559"
+           x="71.779068"
+           id="tspan3796"
+           sodipodi:role="line">Co-membership</tspan></text>
+    </g>
+    <g
+       id="g3839"
+       transform="translate(-3.0146421,66.625624)">
+      <text
+         xml:space="preserve"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         x="71.779068"
+         y="917.17957"
+         id="text3800"
+         sodipodi:linespacing="125%"><tspan
+           style="text-align:start;text-anchor:start"
+           y="917.17957"
+           x="71.779068"
+           id="tspan3804"
+           sodipodi:role="line">Co-enrichment:</tspan><tspan
+           style="text-align:start;text-anchor:start"
+           y="934.67957"
+           x="71.779068"
+           id="tspan3806"
+           sodipodi:role="line">Differential Expression</tspan></text>
+      <path
+         style="fill:none;stroke:#006633;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 7.8828627,922.21423 42.9117193,0"
+         id="path3820"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g3845"
+       transform="translate(-3.0146421,52.506498)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3810"
+         y="974.9397"
+         x="71.423599"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         xml:space="preserve"><tspan
+           y="974.9397"
+           x="71.423599"
+           id="tspan3816"
+           sodipodi:role="line">Linkage:</tspan><tspan
+           y="992.4397"
+           x="71.423599"
+           id="tspan3818"
+           sodipodi:role="line">Protein-Protein Interaction</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path3822"
+         d="m 7.8828627,978.76102 42.9117193,0"
+         style="fill:none;stroke:#6600cc;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>

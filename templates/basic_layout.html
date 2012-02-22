@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title|default:"title"}}{% endblock %}
+
+{% block head %}
+<link type="text/css" href="/media/css/layout-default-latest.css" rel="Stylesheet" />
+<link type="text/css" href="/media/css/blais/jquery-ui-1.8.6.custom.css" rel="Stylesheet" />
+<script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery-ui-1.8.6.custom.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery.layout.min-1.2.0.js"></script>
+
+<style type="text/css">
+/* Using an 'optional-container' instead of 'body', so need body to have a 'height' */
+html, body {
+    width:    100%;
+    height:   100%;
+    padding:  0;
+    margin:   0;
+/*     background-color:   #7F181A; */
+    overflow: hidden !important; 
+}
+
+#base-container {
+    width:        96%;
+    height:       90%;
+    margin-top:   2%;
+    margin-left:  2%;
+}
+.ui-layout-center { overflow: hidden; }
+
+.ui-layout-north {
+    vertical-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+
+
+<script type="text/javascript">
+var myLayout;
+$(document).ready(function(){
+    {% block document_ready %}
+    myLayout = $('#base-container').layout({
+    {% block layout_options %}
+     north__size: "auto"
+     ,south__size: "auto"
+     ,north__resizable: false
+     ,south__resizable: false
+    {% endblock layout_options %}
+    });
+    
+    {% endblock document_ready %}
+   
+});
+
+</script>
+
+{% endblock head %}
+
+
+
+    
+{% block content %}
+
+<div id="base-container">
+    <div id="layout_north" class="ui-layout-north"> 
+        {% block north %}
+        <table width = 100%><tr>
+        <td width=10% align=center ><a href="http://blais.dfci.harvard.edu/"><img src="/media/images/BlaisLogo.png" width=100%/></a></td>
+        <td width=80%><font color="#7F181A"><h1 align = center>{{ title|default:"title"}}</h1></font></td>
+        <td width=10%><font color="#777777"><h3 align = center>About</h3></font></td>
+        </tr></table>
+        {% endblock %}
+    </div>
+    <div id="layout_east" class="ui-layout-east"> {% block east %}{% endblock %} </div>
+    <div id="layout_center" class="ui-layout-center"> {% block center %}{% endblock %} </div>
+    <div id="layout_west" class="ui-layout-west"> {% block west %}{% endblock %} </div>
+    <div id="layout_south" class="ui-layout-south"> 
+        {% block south %}
+        <a align=center href="http://blais.dfci.harvard.edu/">Blais Proteomics Center</a>
+        {% endblock %}
+    </div>
+</div>
+
+{% endblock %}
+

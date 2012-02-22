@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	{% if data %}
+	    {% for row in data %}
+	        <a href="{{ row.link }}" target="_blank">{{ row.label }}</a><br>
+	    {% endfor %}
+	{% else %}
+	    <p>No data.</p>
+	{% endif %}
+{% endblock %}

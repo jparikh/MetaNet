@@ -1,0 +1,46 @@
+{% extends "basic_layout.html" %}
+{% load reversetag %}
+
+
+{% block layout_options %}
+{{ block.super }}
+        ,west__size: "auto"
+{% endblock layout_options %}
+
+
+
+{% block head %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/jquery.form.js"></script>
+
+<script type="text/javascript">
+//jquery-ui stuff
+$(function() {
+    {% block JQueryUI %}
+    $( "button, input:submit").button();
+    {% endblock JQueryUI %}
+});
+</script>
+
+{% endblock head %}
+
+
+
+    
+{% block west %}
+<div align=center>
+<form id="inputform" name="inputform" action="{% reverse ajax_view %}" method="post" >
+Enter input here:<br><br>
+<textarea id="inputlist" name="inputlist" rows=20 cols=10>Enter input here...</textarea>
+<br><br>
+<input type="submit" id="submit_button" value="Submit"/>
+</form>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

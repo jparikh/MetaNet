@@ -1,0 +1,59 @@
+{% extends "basic_input_layout.html" %}
+
+{% comment %}
+Required variables:
+ajax_view
+change beforeAJAX and afterAJAX blocks
+{% endcomment %}
+
+
+{% block head %}
+{{ block.super }}
+<!-- JSON support for IE (needed to use JS API) -->
+<script type="text/javascript" src="/media/cytoscapeweb_v0.8/js/min/json2.min.js"></script>    
+<!-- Flash embedding utility (needed to embed Cytoscape Web) -->
+<script type="text/javascript" src="/media/cytoscapeweb_v0.8/js/min/AC_OETags.min.js"></script>    
+<!-- Cytoscape Web JS API (needed to reference org.cytoscapeweb.Visualization) -->
+<script type="text/javascript" src="/media/cytoscapeweb_v0.8/js/min/cytoscapeweb.min.js"></script>
+<script type="text/javascript">
+var net_xml;
+// initialization options
+var swf_options = {
+    swfPath: "/media/cytoscapeweb_v0.8/swf/CytoscapeWeb",
+    flashInstallerPath: "/media/cytoscapeweb_v0.8/swf/playerProductInstall"
+};
+var visual_style;
+// visual style we will use
+visual_style = {
+    global: {
+        backgroundColor: "#FFFFFF"
+    },
+    nodes: {
+        shape: "CIRCLE",
+        borderWidth: 2,
+        borderColor: "#DDDDDD",
+        size: 50,
+        color: "#7F181A",
+        labelHorizontalAnchor: "center",
+        labelFontSize: 14,
+        labelFontWeight : "bold",
+        labelFontColor: "#FFFFFF"
+    },
+    edges: {
+        width: 3,
+        targetArrowShape: "{{arrow_shape|default:"NONE"}},
+        color: "#DDDDDD",
+        curvature: 25
+    }
+};
+var layout;
+layout = {
+    name: "ForceDirected",
+    options: { gravitation: -8000 }
+};
+var draw_options;
+</script>
+{% endblock head %}
+
+
+
